@@ -12,3 +12,14 @@ class CustomUserModel(BaseUserManager):
         new_user.set_password(password)
         new_user.save()
         return new_user
+
+
+class User(AbstractBaseUser):
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    username = models.CharField(max_length=50, unique=True, null=False)
+    password = models.CharField(max_length=255, null=False)
+    email = models.CharField(max_length=128, unique=True, null=False)
+    joined = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.username
