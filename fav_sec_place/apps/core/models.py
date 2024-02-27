@@ -5,6 +5,11 @@ from django.conf import settings
 from uuid import uuid4
 
 
+class Tag(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    name = models.CharField(max_length=64)
+
+
 class CustomUserModel(BaseUserManager):
     def create_user(self, username, email, password):
         if not email:
@@ -31,6 +36,7 @@ class Place(models.Model):
     name = models.CharField(max_length=128, null=False)
     address = models.CharField(max_length=255, null=False)
     description = models.TextField()
+    tags = models.ManyToManyField(Tag, related_name='places')
     user_id = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -70,3 +76,20 @@ class Review(models.Model):
         on_delete=models.CASCADE,
         related_name='reviews'
     )
+
+
+class Like(models.Model):
+    value = models.BooleanField()
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='likes'
+    )
+    place = models.ForeignKey(
+        Place,
+        on_delete=models.CASCADE,
+        related_name='likes'
+    )
+
+    class Meta:
+        unique_together = ('user', 'place')
