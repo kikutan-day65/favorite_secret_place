@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
+from django.conf import settings
 
 from uuid import uuid4
 
@@ -23,3 +24,18 @@ class User(AbstractBaseUser):
 
     def __str__(self):
         return self.username
+
+
+class Place(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    name = models.CharField(max_length=128, null=False)
+    address = models.CharField(max_length=255, null=False)
+    description = models.TextField()
+    user_id = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='places'
+    )
+
+    def __str__(self):
+        return self.name
