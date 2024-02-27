@@ -54,3 +54,19 @@ class Photo(models.Model):
         on_delete=models.CASCADE,
         related_name='photos'
     )
+
+
+class Review(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    body = models.TextField(null=False)
+    posted = models.DateTimeField(auto_now_add=True)
+    place_id = models.ForeignKey(
+        Place,
+        on_delete=models.CASCADE,
+        related_name='reviews'
+    )
+    user_id = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='reviews'
+    )
