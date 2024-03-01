@@ -22,9 +22,9 @@ class CustomUserModel(BaseUserManager):
 
 class User(AbstractBaseUser):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    username = models.CharField(max_length=50, unique=True, null=False)
-    password = models.CharField(max_length=255, null=False)
-    email = models.CharField(max_length=128, unique=True, null=False)
+    username = models.CharField(max_length=50, unique=True)
+    password = models.CharField(max_length=255)
+    email = models.CharField(max_length=128, unique=True)
     joined = models.DateField(auto_now_add=True)
 
     def __str__(self):
@@ -33,8 +33,8 @@ class User(AbstractBaseUser):
 
 class Place(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    name = models.CharField(max_length=128, null=False)
-    address = models.CharField(max_length=255, null=False)
+    name = models.CharField(max_length=128)
+    address = models.CharField(max_length=255)
     description = models.TextField()
     tags = models.ManyToManyField(Tag, related_name='places')
     user_id = models.ForeignKey(
@@ -49,7 +49,7 @@ class Place(models.Model):
 
 class Photo(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    photo_path = models.CharField(max_length=255, unique=True, null=False)
+    photo_path = models.CharField(max_length=255, unique=True)
     place_id = models.ForeignKey(
         Place,
         on_delete=models.CASCADE,
@@ -67,7 +67,7 @@ class Photo(models.Model):
 
 class Review(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    body = models.TextField(null=False)
+    body = models.TextField()
     posted = models.DateTimeField(auto_now_add=True)
     place_id = models.ForeignKey(
         Place,
