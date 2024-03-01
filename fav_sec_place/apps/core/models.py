@@ -61,6 +61,9 @@ class Photo(models.Model):
         related_name='photos'
     )
 
+    def __str__(self):
+        return self.photo_path
+
 
 class Review(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
@@ -76,6 +79,9 @@ class Review(models.Model):
         on_delete=models.CASCADE,
         related_name='reviews'
     )
+
+    def __str__(self):
+        return self.body
 
 
 class Like(models.Model):
