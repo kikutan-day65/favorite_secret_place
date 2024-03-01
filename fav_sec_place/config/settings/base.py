@@ -31,7 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Added app
-    
+    'fav_sec_place.apps.core.apps.CoreConfig',
 ]
 
 MIDDLEWARE = [
