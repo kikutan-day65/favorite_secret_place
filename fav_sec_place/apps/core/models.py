@@ -18,14 +18,30 @@ class CustomUserModel(BaseUserManager):
         new_user.set_password(password)
         new_user.save()
         return new_user
+    
+    def create_superuser(self, username, email, password, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True.')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
+
+        return self.create_user(username, email, password, **extra_fields)
 
 
 class User(AbstractBaseUser):
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email']
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     username = models.CharField(max_length=50, unique=True)
     password = models.CharField(max_length=255)
     email = models.CharField(max_length=128, unique=True)
     joined = models.DateField(auto_now_add=True)
+
+    objects = CustomUserModel()
 
     def __str__(self):
         return self.username
