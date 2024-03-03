@@ -10,7 +10,7 @@ class Tag(models.Model):
     name = models.CharField(max_length=64)
 
 
-class CustomUserModel(BaseUserManager):
+class UserAccountManager(BaseUserManager):
     def create_user(self, username, email, password):
         if not email:
             raise ValueError("Users must have an email address")
@@ -41,7 +41,7 @@ class User(AbstractBaseUser):
     email = models.CharField(max_length=128, unique=True)
     joined = models.DateField(auto_now_add=True)
 
-    objects = CustomUserModel()
+    objects = UserAccountManager()
 
     def __str__(self):
         return self.username
