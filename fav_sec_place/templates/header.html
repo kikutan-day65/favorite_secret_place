@@ -2,8 +2,17 @@
     <div class="container-fluid">
         <span class="navbar-brand mb-0 h1">Navbar</span>
         <div class="auth">
-            <a href="">Register</a>
-            <a href="">Login</a>
+            
+            {% if user.is_authenticated %}
+                <h2>Hello, {{ user }}!</h2>
+                <form action="{% url 'logout-user' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'register' %}">Register</a>
+                <a href="{% url 'login-user' %}">Login</a>
+            {% endif %}
         </div>
     </div>
 </nav>
