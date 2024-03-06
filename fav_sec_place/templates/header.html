@@ -2,8 +2,14 @@
     <div class="container-fluid">
         <span class="navbar-brand mb-0 h1">Navbar</span>
         <div class="auth">
-            <a href="{% url 'register' %}">Register</a>
-            <a href="{% url 'login' %}">Login</a>
+            
+            {% if user.is_authenticated %}
+                <h2>Hello, {{ user }}!</h2>
+                <a href="#">Logout</a>
+            {% else %}
+                <a href="{% url 'register' %}">Register</a>
+                <a href="{% url 'login-user' %}">Login</a>
+            {% endif %}
         </div>
     </div>
 </nav>
