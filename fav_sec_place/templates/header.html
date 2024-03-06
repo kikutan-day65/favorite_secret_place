@@ -5,7 +5,10 @@
             
             {% if user.is_authenticated %}
                 <h2>Hello, {{ user }}!</h2>
-                <a href="#">Logout</a>
+                <form action="{% url 'logout-user' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Logout</button>
+                </form>
             {% else %}
                 <a href="{% url 'register' %}">Register</a>
                 <a href="{% url 'login-user' %}">Login</a>
