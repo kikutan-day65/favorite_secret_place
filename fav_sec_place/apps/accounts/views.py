@@ -27,3 +27,9 @@ def login_user(request):
     else:
         form = UserLoginForm()
     return render(request, 'accounts/login.html', {'form': form})
+
+
+def logout_user(request):
+    if request.method == 'POST':
+        logout(request)
+    return redirect('login-user')
